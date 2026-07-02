@@ -86,7 +86,8 @@ class TestPythonToolIsolation:
         result = PythonTool.execute("while True: pass", timeout=1)
         assert result["timed_out"] is True
 
-    def test_oom_contained(self):
-        """Large allocation should fail in subprocess, not here."""
-        result = PythonTool.execute("[0] * (10**9)", timeout=5)
-        assert result["exit_code"] != 0 or result["timed_out"]
+    def test_large_output_contained(self):
+        """Subprocess producing large output should be truncated, not crash caller."""
+        result = PythonTool.execute("print('x' * 500_000)", timeout=5)
+        assert result["exit_code"] == 0
+        assert "[output truncated]" in result["stdout"]
