@@ -20,8 +20,8 @@ test = ["pytest>=7.0.0"]
 Repository = "https://github.com/Oaklight/pythontool"
 Issues = "https://github.com/Oaklight/pythontool/issues"
 
-[tool.setuptools]
-py-modules = ["pythontool"]
+[tool.setuptools.packages.find]
+include = ["pythontool*"]
 
 [tool.setuptools.dynamic]
 version = { attr = "pythontool.__version__" }
